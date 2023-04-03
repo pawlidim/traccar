@@ -23,4 +23,14 @@
     <entry key='database.user'>sa</entry>
     <entry key='database.password'></entry>
 
+    <entry key='forward.type'>rabbit</entry>
+    <entry key='forward.topic'>traccar</entry>
+    <entry key='forward.url'>amqp://userName:password@hostName:portNumber/virtualHost</entry>
+    <entry key='forward.header'></entry>
+    <entry key='forward.retry.enable'></entry>
+    <entry key='forward.retry.delay'></entry>
+    <entry key='forward.retry.count'></entry>
+    <entry key='forward.retry.limit'></entry>
+    <entry key='forward.retry.count'></entry>
+
 </properties>

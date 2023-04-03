@@ -789,7 +789,7 @@ public final class Keys {
             "max-age=3600,public");
 
     /**
-     * Position forwarding format. Available options are "url", "json" and "kafka". Default is "url".
+     * Position forwarding format. Available options are "url", "json", "kafka", "rabbit". Default is "url".
      */
     public static final ConfigKey<String> FORWARD_TYPE = new StringConfigKey(
             "forward.type",
@@ -797,7 +797,7 @@ public final class Keys {
             "url");
 
     /**
-     * Position forwarding Kafka topic.
+     * Position forwarding Kafka or RabbitMQ topic.
      */
     public static final ConfigKey<String> FORWARD_TOPIC = new StringConfigKey(
             "forward.topic",

@@ -90,6 +90,7 @@ dependencies {
     testImplementation "org.junit.jupiter:junit-jupiter-api:$junitVersion"
     testImplementation "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
     testImplementation "org.mockito:mockito-core:5.1.1"
+    implementation "com.rabbitmq:amqp-client:5.17.0"
 }
 
 test {

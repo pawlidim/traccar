@@ -42,6 +42,7 @@ import org.traccar.forward.EventForwarderMqtt;
 import org.traccar.forward.PositionForwarder;
 import org.traccar.forward.PositionForwarderJson;
 import org.traccar.forward.PositionForwarderKafka;
+import org.traccar.forward.PositionForwarderRabbit;
 import org.traccar.forward.PositionForwarderRedis;
 import org.traccar.forward.PositionForwarderUrl;
 import org.traccar.geocoder.AddressFormat;
@@ -371,6 +372,8 @@ public class MainModule extends AbstractModule {
                     return new PositionForwarderJson(config, client, objectMapper);
                 case "kafka":
                     return new PositionForwarderKafka(config, objectMapper);
+                case "rabbit":
+                    return new PositionForwarderRabbit(config, objectMapper);
                 case "redis":
                     return new PositionForwarderRedis(config, objectMapper);
                 case "url":
