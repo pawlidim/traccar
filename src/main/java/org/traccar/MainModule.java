@@ -39,6 +39,7 @@ import org.traccar.forward.EventForwarder;
 import org.traccar.forward.EventForwarderJson;
 import org.traccar.forward.EventForwarderKafka;
 import org.traccar.forward.EventForwarderMqtt;
+import org.traccar.forward.EventForwarderRabbit;
 import org.traccar.forward.PositionForwarder;
 import org.traccar.forward.PositionForwarderJson;
 import org.traccar.forward.PositionForwarderKafka;
@@ -355,6 +356,8 @@ public class MainModule extends AbstractModule {
                     return new EventForwarderKafka(config, objectMapper);
                 case "mqtt":
                     return new EventForwarderMqtt(config, objectMapper);
+                case "rabbit":
+                    return new EventForwarderRabbit(config, objectMapper);
                 case "json":
                 default:
                     return new EventForwarderJson(config, client);
