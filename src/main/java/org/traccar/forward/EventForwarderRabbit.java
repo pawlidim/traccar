@@ -1,6 +1,7 @@
 package org.traccar.forward;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.rabbitmq.client.AMQP;
 import com.rabbitmq.client.Channel;
 import com.rabbitmq.client.Connection;
 import com.rabbitmq.client.ConnectionFactory;
@@ -51,9 +52,9 @@ public class EventForwarderRabbit implements EventForwarder {
 
             LOGGER.info("Create connection to RabbitMQ.... try to send event message to exchange " + exchangeName + " with routing " + routingKey);
 
-            channel.basicPublish(exchangeName, routingKey, true,
-                    MessageProperties.PERSISTENT_TEXT_PLAIN,
-                    value.getBytes());
+            AMQP.BasicProperties properties = new AMQP.BasicProperties.Builder()
+                    .contentType("application/json").build();
+            channel.basicPublish(exchangeName, routingKey, true, properties, value.getBytes());
 
             channel.close();
             connection.close();
