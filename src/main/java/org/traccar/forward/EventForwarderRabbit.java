@@ -49,7 +49,7 @@ public class EventForwarderRabbit implements EventForwarder {
             String queueName = channel.queueDeclare().getQueue();
             channel.queueBind(queueName, exchangeName, routingKey);
 
-            LOGGER.info("Create connection to RabbitMQ.... try to send event message to queue " + queueName);
+            LOGGER.info("Create connection to RabbitMQ.... try to send event message to exchange " + exchangeName + " with routing " + routingKey);
 
             channel.basicPublish(exchangeName, routingKey, true,
                     MessageProperties.PERSISTENT_TEXT_PLAIN,
