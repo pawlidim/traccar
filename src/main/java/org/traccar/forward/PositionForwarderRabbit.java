@@ -25,11 +25,13 @@ public class PositionForwarderRabbit implements PositionForwarder {
     private final ConnectionFactory factory;
     private final ObjectMapper objectMapper;
     private final String exchangeName;
+    private final String routingKey;
     private final String url;
 
     public PositionForwarderRabbit(Config config, ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
         exchangeName = config.getString(Keys.FORWARD_TOPIC);
+        routingKey = config.getString(Keys.FORWARD_ROUTING);
         url = config.getString(Keys.FORWARD_URL);
         factory = new ConnectionFactory();
     }
@@ -46,11 +48,11 @@ public class PositionForwarderRabbit implements PositionForwarder {
 
             channel.exchangeDeclare(exchangeName, "direct", true);
             String queueName = channel.queueDeclare().getQueue();
-            channel.queueBind(queueName, exchangeName, "");
+            channel.queueBind(queueName, exchangeName, routingKey);
 
             LOGGER.info("Create connection to RabbitMQ.... try to send position message to queue " + queueName);
 
-            channel.basicPublish(exchangeName, "", true,
+            channel.basicPublish(exchangeName, routingKey, true,
                     MessageProperties.PERSISTENT_TEXT_PLAIN,
                     value.getBytes());
 

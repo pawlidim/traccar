@@ -805,6 +805,14 @@ public final class Keys {
             "positions");
 
     /**
+     * Position forwarding RabbitMQ routing.
+     */
+    public static final ConfigKey<String> FORWARD_ROUTING = new StringConfigKey(
+            "forward.routing",
+            List.of(KeyType.CONFIG),
+            "positions");
+
+    /**
      * URL to forward positions. Data is passed through URL parameters. For example, {uniqueId} for device identifier,
      * {latitude} and {longitude} for coordinates.
      */
@@ -870,6 +878,14 @@ public final class Keys {
      */
     public static final ConfigKey<String> EVENT_FORWARD_TOPIC = new StringConfigKey(
             "event.forward.topic",
+            List.of(KeyType.CONFIG),
+            "events");
+
+    /**
+     * Events forwarding RabbitMq routing.
+     */
+    public static final ConfigKey<String> EVENT_FORWARD_ROUTING = new StringConfigKey(
+            "event.forward.routing",
             List.of(KeyType.CONFIG),
             "events");
 

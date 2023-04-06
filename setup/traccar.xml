@@ -25,10 +25,13 @@
 
     <entry key='forward.type'>rabbit</entry>
     <entry key='forward.topic'>...</entry>
+    <entry key='forward.routing'>positions</entry>
     <entry key='forward.url'>..</entry>
     <entry key='event.forward.type'>rabbit</entry>
     <entry key='event.forward.topic'>...</entry>
+    <entry key='event.forward.routing'>events</entry>
     <entry key='event.forward.url'>...</entry>
+
     <entry key='forward.header'></entry>
     <entry key='forward.retry.enable'></entry>
     <entry key='forward.retry.delay'></entry>
