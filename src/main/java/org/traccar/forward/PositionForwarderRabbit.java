@@ -2,6 +2,9 @@ package org.traccar.forward;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.traccar.Main;
 import org.traccar.config.Config;
 import org.traccar.config.Keys;
 import com.rabbitmq.client.Connection;
@@ -16,6 +19,8 @@ import java.security.NoSuchAlgorithmException;
 import java.util.concurrent.TimeoutException;
 
 public class PositionForwarderRabbit implements PositionForwarder {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(PositionForwarderRabbit.class);
 
     private final ConnectionFactory factory;
     private final ObjectMapper objectMapper;
@@ -36,14 +41,16 @@ public class PositionForwarderRabbit implements PositionForwarder {
             Connection connection = factory.newConnection();
             Channel channel = connection.createChannel();
 
-            String key = Long.toString(positionData.getDevice().getId());
+            //String key = Long.toString(positionData.getDevice().getId());
             String value = objectMapper.writeValueAsString(positionData);
 
             channel.exchangeDeclare(exchangeName, "direct", true);
             String queueName = channel.queueDeclare().getQueue();
-            channel.queueBind(queueName, exchangeName, key);
+            channel.queueBind(queueName, exchangeName, null);
 
-            channel.basicPublish(exchangeName, key, true,
+            LOGGER.info("Create connection to RabbitMQ.... try to send position message to queue " + queueName);
+
+            channel.basicPublish(exchangeName, null, true,
                     MessageProperties.PERSISTENT_TEXT_PLAIN,
                     value.getBytes());
 
