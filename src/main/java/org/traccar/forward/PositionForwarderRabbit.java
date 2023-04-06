@@ -46,11 +46,11 @@ public class PositionForwarderRabbit implements PositionForwarder {
 
             channel.exchangeDeclare(exchangeName, "direct", true);
             String queueName = channel.queueDeclare().getQueue();
-            channel.queueBind(queueName, exchangeName, null);
+            channel.queueBind(queueName, exchangeName, "");
 
             LOGGER.info("Create connection to RabbitMQ.... try to send position message to queue " + queueName);
 
-            channel.basicPublish(exchangeName, null, true,
+            channel.basicPublish(exchangeName, "", true,
                     MessageProperties.PERSISTENT_TEXT_PLAIN,
                     value.getBytes());
 
