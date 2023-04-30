@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "Traccar",
-    "version": "5.6",
+    "version": "5.7",
     "description": "Traccar GPS tracking server API documentation. To use the API you need to have a server instance. For testing purposes you can use one of free [demo servers](https://www.traccar.org/demo-server/). For production use you can install your own server or get a [subscription service](https://www.traccar.org/product/tracking-server/).",
     "contact": {
       "name": "Traccar Support",
@@ -871,6 +871,54 @@
                 }
               }
             }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletes all the Positions of a device in the time span specified",
+        "description": "",
+        "tags": [
+          "Positions"
+        ],
+        "parameters": [
+          {
+            "name": "deviceId",
+            "in": "query",
+            "description": "",
+            "schema": {
+              "type": "integer"
+            },
+            "required": true
+          },
+          {
+            "name": "from",
+            "in": "query",
+            "description": "in IS0 8601 format. eg. `1963-11-22T18:30:00Z`",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": true
+          },
+          {
+            "name": "to",
+            "in": "query",
+            "description": "in IS0 8601 format. eg. `1963-11-22T18:30:00Z`",
+            "schema": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "No Content",
+            "content": {}
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {}
           }
         }
       }
@@ -2677,6 +2725,12 @@
             "type": "object",
             "properties": {}
           },
+          "geofenceIds": {
+            "type": "array",
+            "items": {
+              "type": "integer"
+            }
+          },
           "attributes": {
             "type": "object",
             "properties": {}
@@ -2878,12 +2932,6 @@
           },
           "category": {
             "type": "string"
-          },
-          "geofenceIds": {
-            "type": "array",
-            "items": {
-              "type": "integer"
-            }
           },
           "attributes": {
             "type": "object",

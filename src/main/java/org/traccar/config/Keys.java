@@ -623,7 +623,7 @@ public final class Keys {
      * This is a unique ID assigned to each application you register with your identity provider.
      * Required to enable SSO.
      */
-    public static final ConfigKey<String> OPENID_CLIENTID = new StringConfigKey(
+    public static final ConfigKey<String> OPENID_CLIENT_ID = new StringConfigKey(
             "openid.clientId",
             List.of(KeyType.CONFIG));
 
@@ -632,45 +632,62 @@ public final class Keys {
      * This is a secret assigned to each application you register with your identity provider.
      * Required to enable SSO.
      */
-    public static final ConfigKey<String> OPENID_CLIENTSECRET = new StringConfigKey(
+    public static final ConfigKey<String> OPENID_CLIENT_SECRET = new StringConfigKey(
             "openid.clientSecret",
+            List.of(KeyType.CONFIG));
+
+    /**
+     * OpenID Connect Issuer (Base) URL.
+     * This is used to automatically configure the authorization, token and user info URLs if provided.
+     */
+    public static final ConfigKey<String> OPENID_ISSUER_URL = new StringConfigKey(
+            "openid.issuerUrl",
             List.of(KeyType.CONFIG));
 
     /**
      * OpenID Connect Authorization URL.
      * This can usually be found in the documentation of your identity provider or by using the well-known
      * configuration endpoint, eg. https://auth.example.com//.well-known/openid-configuration
-     * Required to enable SSO.
+     * Required to enable SSO if openid.issuerUrl is not set.
      */
-    public static final ConfigKey<String> OPENID_AUTHURL = new StringConfigKey(
+    public static final ConfigKey<String> OPENID_AUTH_URL = new StringConfigKey(
             "openid.authUrl",
             List.of(KeyType.CONFIG));
     /**
      * OpenID Connect Token URL.
      * This can be found in the same ways at openid.authUrl.
-     * Required to enable SSO.
+     * Required to enable SSO if openid.issuerUrl is not set.
      */
-    public static final ConfigKey<String> OPENID_TOKENURL = new StringConfigKey(
+    public static final ConfigKey<String> OPENID_TOKEN_URL = new StringConfigKey(
             "openid.tokenUrl",
             List.of(KeyType.CONFIG));
 
     /**
      * OpenID Connect User Info URL.
      * This can be found in the same ways at openid.authUrl.
-     * Required to enable SSO.
+     * Required to enable SSO if openid.issuerUrl is not set.
      */
-    public static final ConfigKey<String> OPENID_USERINFOURL = new StringConfigKey(
+    public static final ConfigKey<String> OPENID_USERINFO_URL = new StringConfigKey(
             "openid.userInfoUrl",
             List.of(KeyType.CONFIG));
 
     /**
-     * OpenID Connect group to grant admin access.
-     * Defaults to admins.
+     * OpenID Connect group to restrict access to.
+     * If this is not provided, all OpenID users will have access to Traccar.
+     * This option will only work if your OpenID provider supports the groups scope.
      */
-    public static final ConfigKey<String> OPENID_ADMINGROUP = new StringConfigKey(
+    public static final ConfigKey<String> OPENID_ALLOW_GROUP = new StringConfigKey(
+        "openid.allowGroup",
+        List.of(KeyType.CONFIG));
+
+    /**
+     * OpenID Connect group to grant admin access.
+     * If this is not provided, no groups will be granted admin access.
+     * This option will only work if your OpenID provider supports the groups scope.
+     */
+    public static final ConfigKey<String> OPENID_ADMIN_GROUP = new StringConfigKey(
             "openid.adminGroup",
-            List.of(KeyType.CONFIG),
-            "admins");
+            List.of(KeyType.CONFIG));
 
     /**
      * If no data is reported by a device for the given amount of time, status changes from online to unknown. Value is
@@ -789,7 +806,14 @@ public final class Keys {
             "max-age=3600,public");
 
     /**
-     * Position forwarding format. Available options are "url", "json", "kafka", "rabbit". Default is "url".
+     * Host for raw data forwarding.
+     */
+    public static final ConfigKey<String> SERVER_FORWARD = new StringConfigKey(
+            "server.forward",
+            List.of(KeyType.CONFIG));
+
+    /**
+     * Position forwarding format. Available options are "url", "json" and "kafka". Default is "url".
      */
     public static final ConfigKey<String> FORWARD_TYPE = new StringConfigKey(
             "forward.type",
@@ -797,18 +821,10 @@ public final class Keys {
             "url");
 
     /**
-     * Position forwarding Kafka or RabbitMQ topic.
+     * Position forwarding Kafka topic.
      */
     public static final ConfigKey<String> FORWARD_TOPIC = new StringConfigKey(
             "forward.topic",
-            List.of(KeyType.CONFIG),
-            "positions");
-
-    /**
-     * Position forwarding RabbitMQ routing.
-     */
-    public static final ConfigKey<String> FORWARD_ROUTING = new StringConfigKey(
-            "forward.routing",
             List.of(KeyType.CONFIG),
             "positions");
 
@@ -878,14 +894,6 @@ public final class Keys {
      */
     public static final ConfigKey<String> EVENT_FORWARD_TOPIC = new StringConfigKey(
             "event.forward.topic",
-            List.of(KeyType.CONFIG),
-            "events");
-
-    /**
-     * Events forwarding RabbitMq routing.
-     */
-    public static final ConfigKey<String> EVENT_FORWARD_ROUTING = new StringConfigKey(
-            "event.forward.routing",
             List.of(KeyType.CONFIG),
             "events");
 
@@ -1228,6 +1236,14 @@ public final class Keys {
      */
     public static final ConfigKey<Boolean> FILTER_DUPLICATE = new BooleanConfigKey(
             "filter.duplicate",
+            List.of(KeyType.CONFIG));
+
+    /**
+     * Filter messages that do not have GPS location. If they are not filtered, they will include the last known
+     * location.
+     */
+    public static final ConfigKey<Boolean> FILTER_OUTDATED = new BooleanConfigKey(
+            "filter.outdated",
             List.of(KeyType.CONFIG));
 
     /**
