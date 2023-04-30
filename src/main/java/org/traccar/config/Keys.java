@@ -821,9 +821,17 @@ public final class Keys {
             "url");
 
     /**
-     * Position forwarding Kafka topic.
+     * Position forwarding Kafka or RabbitMQ topic.
      */
     public static final ConfigKey<String> FORWARD_TOPIC = new StringConfigKey(
+            "forward.topic",
+            List.of(KeyType.CONFIG),
+            "positions");
+
+    /**
+     * Position forwarding RabbitMQ routing.
+     */
+    public static final ConfigKey<String> FORWARD_ROUTING = new StringConfigKey(
             "forward.topic",
             List.of(KeyType.CONFIG),
             "positions");
@@ -894,6 +902,14 @@ public final class Keys {
      */
     public static final ConfigKey<String> EVENT_FORWARD_TOPIC = new StringConfigKey(
             "event.forward.topic",
+            List.of(KeyType.CONFIG),
+            "events");
+
+    /**
+     * Events forwarding RabbitMq routing.
+     */
+    public static final ConfigKey<String> EVENT_FORWARD_ROUTING = new StringConfigKey(
+            "event.forward.routing",
             List.of(KeyType.CONFIG),
             "events");
 
